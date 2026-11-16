@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Connecting TikTok – The Daily Find Studio</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<main>
+<header><div class="mark">DF</div><div><strong>The Daily Find Studio</strong></div></header>
+<h1 id="msg">Finishing TikTok sign-in…</h1>
+<p class="muted" id="detail">You'll be returned to The Daily Find Studio on your computer.</p>
+<script>
+  // TikTok requires an https return address. This page only passes the one-time sign-in code
+  // straight back to the app running on this computer; nothing is stored or sent anywhere else.
+  (function () {
+    var q = new URLSearchParams(location.search);
+    var code = q.get('code'), state = q.get('state'), err = q.get('error');
+    if (err) { document.getElementById('msg').textContent = 'TikTok sign-in was cancelled'; document.getElementById('detail').textContent = q.get('error_description') || err; return; }
+    if (!code || !state) { document.getElementById('msg').textContent = 'Nothing to do here'; document.getElementById('detail').textContent = 'This page is only used while connecting TikTok.'; return; }
+    location.replace('http://127.0.0.1:4180/tiktok/callback?code=' + encodeURIComponent(code) + '&state=' + encodeURIComponent(state));
+  })();
+</script>
+</main>
+</body>
+</html>
